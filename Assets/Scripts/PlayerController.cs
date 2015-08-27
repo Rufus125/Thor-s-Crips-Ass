@@ -130,6 +130,9 @@ public class PlayerController : MonoBehaviour
 				audio.Stop ();
 			}
 		} else {
+			if (audio.isPlaying) {
+				audio.Stop ();
+			}
 			currentState = ThorState.normal;
 		}
     }
