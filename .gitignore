@@ -19,5 +19,6 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
-Assets/Audio/DangerZone.mp4
-Assets/Audio/DangerZone.mp4.meta
+
+Assets/Resources/Audio/DangerZone.ogg
+Assets/Resources/Audio/DangerZone.ogg.meta

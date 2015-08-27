@@ -104,12 +104,20 @@ public class PlayerController : MonoBehaviour
 	}
 
     void UpdateThorState() {
-        if( beerometer.value > dangerZone )
-            currentState = ThorState.drunk;
-        else if( beerometer.value > happyZone )
-            currentState = ThorState.happy;
-        else
-            currentState = ThorState.normal;
+		AudioSource audio = gameObject.GetComponent < AudioSource > ();
+        if (beerometer.value > dangerZone) {
+			currentState = ThorState.drunk;
+			if (!audio.isPlaying) {
+				audio.Play ();
+			}
+		} else if (beerometer.value > happyZone) {
+			currentState = ThorState.happy;
+			if (audio.isPlaying) {
+				audio.Stop ();
+			}
+		} else {
+			currentState = ThorState.normal;
+		}
     }
 	
 	void ConstrainToScreen ()
