@@ -8,18 +8,18 @@ public class PlayerController : MonoBehaviour
 	public float speed = 15;
 	public Slider beerometer;
 	public Color beercolor;
-	private Rigidbody2D rigidBody;
+	
+    private Rigidbody2D rigidBody;
 	private bool isRightDown;
 	private bool isLeftDown;
+
 	[SerializeField]
-	private float
-		minBeerValue = 0.05f;
+	private float minBeerValue = 0.05f;
 	[SerializeField]
-	private float
-		dangerZone = 0.9f;
+	private float dangerZone = 0.9f;
 	[SerializeField]
-	private float
-		happyZone = 0.6f;
+	private float happyZone = 0.6f;
+
 	private Image SliderImage;
 	//drunken moves are done every second time
 	private int i = 0;
@@ -28,6 +28,10 @@ public class PlayerController : MonoBehaviour
 	private Sprite drunkenSprite;
 	private Sprite normalSprite;
 	private Sprite happySprite;
+
+    enum ThorState { normal, happy, drunk };
+    ThorState currentState;
+    ThorState previousState;
 
 	// Use this for initialization
 	void Start ()
@@ -52,8 +56,10 @@ public class PlayerController : MonoBehaviour
 	void Update ()
 	{
 		
-		HandleInput ();
-		Move ();
+		HandleInput();
+		Move();
+
+        UpdateThorState();
 
 		if (Input.GetKeyDown (KeyCode.C)) {
 			beerometer.value += 0.1f;
@@ -62,31 +68,49 @@ public class PlayerController : MonoBehaviour
 
 			if (beerometer.value < minBeerValue) {
 				beerometer.value = minBeerValue;
-			} else if (beerometer.value > dangerZone) {
-				SliderImage.color = Color.Lerp (SliderImage.color, Color.red, 0.1f);
-
-				face.sprite = drunkenSprite;
-				if (i++ % 2 == 0) {
-					float DrunkenSpeed = Random.Range (-22, 22);
-					rigidBody.velocity = new Vector2 (DrunkenSpeed, rigidBody.velocity.y);
-				}
-			} else if (SliderImage.color != beercolor) {
-				SliderImage.color = Color.Lerp (SliderImage.color, beercolor, 0.2f);
-				if (beerometer.value > happyZone) {
-					face.sprite = happySprite;
-				}
-			} else {
-
-				face.sprite = normalSprite;
 			}
-			
+
+            // Change graphics depending on state
+            if( currentState == ThorState.drunk ) { // if thor is drunk
+                // make the beer o meter red
+                SliderImage.color = Color.Lerp( SliderImage.color, Color.red, 0.1f );
+
+                // make thor look drunk
+                if(currentState != previousState) face.sprite = drunkenSprite;
+
+                // randomize movement
+                if( i++ % 2 == 0 ) {
+                    float DrunkenSpeed = Random.Range( -22, 22 );
+                    rigidBody.velocity = new Vector2( DrunkenSpeed, rigidBody.velocity.y );
+                }
+            } else if( currentState == ThorState.happy ) {
+                if( currentState != previousState ) face.sprite = happySprite;
+            } else {
+                if( currentState != previousState ) face.sprite = normalSprite;
+            }
+
+            if( currentState != ThorState.drunk ) {
+                SliderImage.color = Color.Lerp( SliderImage.color, beercolor, 0.2f );
+            }			
 		}
+
+        // save thors state for next frame
+        previousState = currentState;
 	}
 	
 	void LateUpdate ()
 	{
 		ConstrainToScreen ();
 	}
+
+    void UpdateThorState() {
+        if( beerometer.value > dangerZone )
+            currentState = ThorState.drunk;
+        else if( beerometer.value > happyZone )
+            currentState = ThorState.happy;
+        else
+            currentState = ThorState.normal;
+    }
 	
 	void ConstrainToScreen ()
 	{
