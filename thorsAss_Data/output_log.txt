@@ -1,0 +1,22 @@
+Initialize engine version: 5.1.2f1 (afd2369b692a)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 650 (ID=0xfc6)
+    Vendor:   NVIDIA
+    VRAM:     1985 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\summer\Desktop\Thor-s-Crips-Ass\thorsAss_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.080 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
