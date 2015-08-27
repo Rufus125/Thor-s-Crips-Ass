@@ -115,6 +115,12 @@ public class PlayerController : MonoBehaviour
 		AudioSource audio = gameObject.GetComponent < AudioSource > ();
         if (beerometer.value > dangerZone) {
 			currentState = ThorState.drunk;
+			Transform text = GameObject.Find("DANGERZONE").GetComponent<Transform>();
+			text.Rotate(new Vector3(2,2,2));
+			Transform text1 = GameObject.Find("DANGERZONE1").GetComponent<Transform>();
+			text1.Rotate(new Vector3(1,1,1));
+			Transform text2 = GameObject.Find("DANGERZONE2").GetComponent<Transform>();
+			text2.Rotate(new Vector3(3,3,3));
 			if (!audio.isPlaying) {
 				audio.Play ();
 			}

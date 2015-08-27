@@ -10,6 +10,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	public Transform obstaclePrefab;
 	public Transform pickupPrefab;
+	public Transform mermaidPrefab;
 
 	// how far above the player obstacle should spawn
 	private float yDistance = 15;
@@ -19,6 +20,9 @@ public class ObstacleSpawner : MonoBehaviour {
 
 	private float lastPickupSpawnTime;
 	private float timeUntilPickup;
+
+	private float lastMermaidSpawnTime;
+	private float timeUntillMermaid;
 
 
 	void Start(){
@@ -31,15 +35,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
 		SpawnPickups ();
 
-		DeleteObjects ();
-	}
-
-	void DeleteObjects ()
-	{
-
-		if (transform.position.y < -8f) {
-			Destroy (transform);
-		}
+		SpawnMermaid ();
 	}
 
 	void SpawnObstacles() {
@@ -62,6 +58,18 @@ public class ObstacleSpawner : MonoBehaviour {
 			Instantiate(pickupPrefab, new Vector3(xPosition, playerTransform.position.y + yDistance, 0), Quaternion.identity) ;
 		}
 		lastPickupSpawnTime += Time.deltaTime;
+	}
+
+	void SpawnMermaid() {
+		if (lastMermaidSpawnTime > timeUntillMermaid){
+			timeUntillMermaid = Random.Range(minTime, maxTime); // randomise time untill the next pickup
+			lastMermaidSpawnTime = 0;
+			float xPosition = Random.Range(-7.5f, 7.5f);
+			xPosition = (xPosition-1)*1.5f;
+			Instantiate(mermaidPrefab, new Vector3(xPosition, playerTransform.position.y + yDistance, 0), Quaternion.identity) ;
+		}
+		lastMermaidSpawnTime += Time.deltaTime;
+
 	}
 
 
