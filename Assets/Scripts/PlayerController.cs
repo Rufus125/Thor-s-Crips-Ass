@@ -17,11 +17,31 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float
 		dangerZone = 0.9f;
+	[SerializeField]
+	private float
+		happyZone = 0.6f;
 	private Image SliderImage;
-	private int i =0;
+	//drunken moves are done every second time
+	private int i = 0;
+	//change the face image on the top right
+	private Image face;
+	private Sprite drunkenSprite;
+	private Sprite normalSprite;
+	private Sprite happySprite;
+
 	// Use this for initialization
 	void Start ()
 	{
+		Texture2D txt2D = Resources.Load ("Images/face_drunk") as Texture2D;
+		drunkenSprite = Sprite.Create (txt2D as Texture2D, new Rect (0f, 0f, txt2D.width, txt2D.height), Vector2.zero);
+
+		txt2D = Resources.Load ("Images/face_normal") as Texture2D;
+		normalSprite = Sprite.Create (txt2D as Texture2D, new Rect (0f, 0f, txt2D.width, txt2D.height), Vector2.zero);
+
+		txt2D = Resources.Load ("Images/face_happy") as Texture2D;
+		happySprite = Sprite.Create (txt2D as Texture2D, new Rect (0f, 0f, txt2D.width, txt2D.height), Vector2.zero);
+		
+		face = GameObject.Find ("ThorsFace").GetComponent<Image> ();
 		rigidBody = GetComponent<Rigidbody2D> ();
 		beerometer.value = 0.5f;
 
@@ -44,13 +64,21 @@ public class PlayerController : MonoBehaviour
 				beerometer.value = minBeerValue;
 			} else if (beerometer.value > dangerZone) {
 				SliderImage.color = Color.Lerp (SliderImage.color, Color.red, 0.1f);
-				if( i++ %2 ==0){
-					float DrunkenSpeed = Random.Range(-22, 22);
+
+				face.sprite = drunkenSprite;
+				if (i++ % 2 == 0) {
+					float DrunkenSpeed = Random.Range (-22, 22);
 					rigidBody.velocity = new Vector2 (DrunkenSpeed, rigidBody.velocity.y);
 				}
 			} else if (SliderImage.color != beercolor) {
-					SliderImage.color = Color.Lerp (SliderImage.color, beercolor, 0.2f);
-			}		
+				SliderImage.color = Color.Lerp (SliderImage.color, beercolor, 0.2f);
+				if (beerometer.value > happyZone) {
+					face.sprite = happySprite;
+				}
+			} else {
+
+				face.sprite = normalSprite;
+			}
 			
 		}
 	}
@@ -92,6 +120,19 @@ public class PlayerController : MonoBehaviour
 			rigidBody.velocity = new Vector2 (-speed, rigidBody.velocity.y);
 		} else { // neither left nor right are down
 			rigidBody.velocity = new Vector2 (0f, rigidBody.velocity.y);
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Beer"))
+		{
+			Destroy(collision.gameObject);
+			Debug.Log("You wonasdfasdf !!!");
+		} else if (collision.gameObject.CompareTag("Iceberg"))
+		{
+			Destroy(collision.gameObject);
+			Debug.Log("You FAIL !!!");
 		}
 	}
 }

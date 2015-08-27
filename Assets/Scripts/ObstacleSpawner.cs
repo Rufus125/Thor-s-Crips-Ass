@@ -18,7 +18,7 @@ public class ObstacleSpawner : MonoBehaviour {
 	private float timeUntillObstacle;
 
 	private float lastPickupSpawnTime;
-	private float timeUntillPickup;
+	private float timeUntilPickup;
 
 
 	void Start(){
@@ -30,6 +30,16 @@ public class ObstacleSpawner : MonoBehaviour {
 		SpawnObstacles ();
 
 		SpawnPickups ();
+
+		DeleteObjects ();
+	}
+
+	void DeleteObjects ()
+	{
+
+		if (transform.position.y < -8f) {
+			Destroy (transform);
+		}
 	}
 
 	void SpawnObstacles() {
@@ -44,10 +54,10 @@ public class ObstacleSpawner : MonoBehaviour {
 	}
 
 	void SpawnPickups() {
-		if (lastPickupSpawnTime > timeUntillPickup){
-			timeUntillPickup = Random.Range(minTime, maxTime); // randomise time untill the next pickup
+		if (lastPickupSpawnTime > timeUntilPickup){
+			timeUntilPickup = Random.Range(minTime, maxTime); // randomise time untill the next pickup
 			lastPickupSpawnTime = 0;
-			float xPosition = Random.Range(0, 5);
+			float xPosition = Random.Range(-7.5f, 7.5f);
 			xPosition = (xPosition-1)*1.5f;
 			Instantiate(pickupPrefab, new Vector3(xPosition, playerTransform.position.y + yDistance, 0), Quaternion.identity) ;
 		}
