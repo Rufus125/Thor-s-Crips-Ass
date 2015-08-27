@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
 	private Sprite normalSprite;
 	private Sprite happySprite;
 
+    private float score = 0;
+    public Text scoreText;
+
     enum ThorState { normal, happy, drunk };
     ThorState currentState;
     ThorState previousState;
@@ -60,6 +63,11 @@ public class PlayerController : MonoBehaviour
 		Move();
 
         UpdateThorState();
+
+        // increase the score slowly        
+        score += Time.deltaTime * (beerometer.value + 1);
+
+        UpdateScoreText();
 
 		if (Input.GetKeyDown (KeyCode.C)) {
 			beerometer.value += 0.1f;
@@ -160,11 +168,16 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.CompareTag("Beer"))
 		{
 			Destroy(collision.gameObject);
-			Debug.Log("You wonasdfasdf !!!");
+            score += 50;
 		} else if (collision.gameObject.CompareTag("Iceberg"))
 		{
 			Destroy(collision.gameObject);
-			Debug.Log("You FAIL !!!");
+            beerometer.value = minBeerValue;
 		}
 	}
+
+    void UpdateScoreText() {
+
+        scoreText.text = "$: " + score.ToString( "F2" );
+    }
 }
