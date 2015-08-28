@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private float score = 0;
     public Text scoreText;
 
+    private GameObject dangerText1;
+    private GameObject dangerText2;
+    private GameObject dangerText3;
+
     enum ThorState { normal, happy, drunk };
     ThorState currentState;
     ThorState previousState;
@@ -53,6 +57,16 @@ public class PlayerController : MonoBehaviour
 		beerometer.value = 0.5f;
 
 		SliderImage = beerometer.GetComponentsInChildren<UnityEngine.UI.Image> () [1];
+
+        // get the red danger zone text
+        dangerText1 = GameObject.Find( "DANGERZONE" );
+        dangerText2 = GameObject.Find( "DANGERZONE1" );
+        dangerText3 = GameObject.Find( "DANGERZONE2" );
+
+        dangerText1.SetActive( false );
+        dangerText2.SetActive( false );
+        dangerText3.SetActive( false );
+            
 	}
 	
 	// Update is called once per frame
@@ -91,10 +105,28 @@ public class PlayerController : MonoBehaviour
                     float DrunkenSpeed = Random.Range( -22, 22 );
                     rigidBody.velocity = new Vector2( DrunkenSpeed, rigidBody.velocity.y );
                 }
+
+                if( currentState != previousState ) {
+                    // Make the text spin when thor is drunk
+                    dangerText1.SetActive( true );
+                    dangerText2.SetActive( true );
+                    dangerText3.SetActive( true );
+                }
+                                
+                dangerText1.GetComponent<Transform>().Rotate( new Vector3( 2, 2, 2 ) );
+                dangerText2.GetComponent<Transform>().Rotate( new Vector3( 1, 1, 1 ) );
+                dangerText3.GetComponent<Transform>().Rotate( new Vector3( 3, 3, 3 ) );
+
             } else if( currentState == ThorState.happy ) {
                 if( currentState != previousState ) face.sprite = happySprite;
             } else {
-                if( currentState != previousState ) face.sprite = normalSprite;
+                if( currentState != previousState ) {
+                    face.sprite = normalSprite;
+
+                    dangerText1.SetActive( false );
+                    dangerText2.SetActive( false );
+                    dangerText3.SetActive( false );
+                }
             }
 
             if( currentState != ThorState.drunk ) {
@@ -115,12 +147,8 @@ public class PlayerController : MonoBehaviour
 		AudioSource audio = gameObject.GetComponent < AudioSource > ();
         if (beerometer.value > dangerZone) {
 			currentState = ThorState.drunk;
-			Transform text = GameObject.Find("DANGERZONE").GetComponent<Transform>();
-			text.Rotate(new Vector3(2,2,2));
-			Transform text1 = GameObject.Find("DANGERZONE1").GetComponent<Transform>();
-			text1.Rotate(new Vector3(1,1,1));
-			Transform text2 = GameObject.Find("DANGERZONE2").GetComponent<Transform>();
-			text2.Rotate(new Vector3(3,3,3));
+
+
 			if (!audio.isPlaying) {
 				audio.Play ();
 			}
