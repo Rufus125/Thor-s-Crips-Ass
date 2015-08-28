@@ -123,6 +123,10 @@ public class PlayerController : MonoBehaviour
                 if( currentState != previousState ) {
                     face.sprite = normalSprite;
 
+					//dangerText1.color = Color.Lerp( SliderImage.color, beercolor, 0.2f );
+					//dangerText2.color = Color.Lerp( SliderImage.color, beercolor, 0.2f );
+					//dangerText3.color = Color.Lerp( SliderImage.color, beercolor, 0.2f );
+
                     dangerText1.SetActive( false );
                     dangerText2.SetActive( false );
                     dangerText3.SetActive( false );
@@ -151,11 +155,13 @@ public class PlayerController : MonoBehaviour
 
 			if (!audio.isPlaying) {
 				audio.Play ();
+				audio.time = 37.00f;
 			}
 		} else if (beerometer.value > happyZone) {
 			currentState = ThorState.happy;
 			if (audio.isPlaying) {
 				audio.Stop ();
+				//audio.Fa
 			}
 		} else {
 			if (audio.isPlaying) {
